@@ -38,7 +38,7 @@ mod tests {
     //
     #[test]
     fn test_ranges() {
-        let test_cases = vec![TestCase{percent:0, min:0.0, max:0.0},
+        let test_cases: Vec<TestCase> = vec![TestCase{percent:0, min:0.0, max:0.0},
             TestCase{percent:0, min:0.0, max:0.0},
             TestCase{percent:10, min:0.075, max:0.125},
             TestCase{percent:20, min:0.175, max:0.225},
