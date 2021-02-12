@@ -28,82 +28,49 @@ pub fn event(percent: u32) -> bool {
 
 #[cfg(test)]
 mod tests {
+    
     use super::*;
-
-    #[test]
-    fn test_event_will_never_occur() {
-        assert_eq!(event(0), false);
+    struct TestCase {
+        percent: u32,
+        min: f32,
+        max: f32
     }
+    //
     #[test]
-    fn test_event_will_always_occur() {
-        assert_eq!(event(10000), true);
+    fn test_ranges() {
+        let test_cases = vec![TestCase{percent:0, min:0.0, max:0.0},
+            TestCase{percent:0, min:0.0, max:0.0},
+            TestCase{percent:10, min:0.075, max:0.125},
+            TestCase{percent:20, min:0.175, max:0.225},
+            TestCase{percent:30, min:0.275, max:0.325},
+            TestCase{percent:40, min:0.375, max:0.425},
+            TestCase{percent:50, min:0.475, max:0.525},
+            TestCase{percent:60, min:0.575, max:0.625},
+            TestCase{percent:70, min:0.675, max:0.725},
+            TestCase{percent:80, min:0.775, max:0.825},
+            TestCase{percent:90, min:0.875, max:0.925},
+            TestCase{percent:100, min:0.975, max:100.25},        
+        ];
+    
+        for test_case in test_cases {
+            let ratio = iterate(test_case.percent);
+            assert_eq!(
+                (ratio >= test_case.min && ratio <= test_case.max), 
+                true, 
+                "Percent {}, ratio min {}, ratio max {}", 
+                test_case.percent, 
+                test_case.min, 
+                test_case.max);
+        }
     }
-    #[test]
-    fn test_event_10_percent() {
-        let ratio = iterate(10);
-        assert_eq!((ratio > 0.05 && ratio < 0.15), true);
-    }
-    #[test]
-    fn test_event_20_percent() {
-        let ratio = iterate(20);
-        assert_eq!((ratio > 0.15 && ratio < 0.25), true);
-    }
-
-
-    #[test]
-    fn test_event_30_percent() {
-        let ratio = iterate(30);
-        assert_eq!((ratio > 0.25 && ratio < 0.35), true);
-    }
-
-    #[test]
-    fn test_event_40_percent() {
-        let ratio = iterate(40);
-        assert_eq!((ratio > 0.35 && ratio < 0.45), true);
-    }
-
-    #[test]
-    fn test_event_50_percent() {
-        let ratio = iterate(50);
-        assert_eq!((ratio > 0.45 && ratio < 0.55), true);
-    }
-    #[test]
-    fn test_event_60_percent() {
-        let ratio = iterate(60);
-        assert_eq!((ratio > 0.55 && ratio < 0.65), true);
-    }
-    #[test]
-    fn test_event_70_percent() {
-        let ratio = iterate(70);
-        assert_eq!((ratio > 0.65 && ratio < 0.75), true);
-    }
-
-    #[test]
-    fn test_event_80_percent() {
-        let ratio = iterate(80);
-        assert_eq!((ratio > 0.75 && ratio < 0.85), true);
-    }
-    #[test]
-    fn test_event_90_percent() {
-        let ratio = iterate(90);
-        assert_eq!((ratio > 0.85 && ratio < 0.95), true);
-    }
-    #[test]
-    fn test_event_100_percent() {
-        let ratio = iterate(100);
-        assert_eq!((ratio > 0.95 && ratio < 1.05), true);
-    }
-
+    
     fn iterate(percent: u32) -> f32 {
         let mut got_event: u32 = 0;
         for _i in 0..10000 {
-            let event_happend = event(percent);
-            if event_happend {
+            if event(percent) {
                 got_event = got_event + 1;
             } 
         }
         got_event as f32 / 10000.0
     }
-
-
 }
