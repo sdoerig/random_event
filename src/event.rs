@@ -64,10 +64,6 @@ mod tests {
         }
     }
     
-    #[bench]
-    fn bench_80(b: &mut Bencher) {
-        b.iter(|| interate(80));
-    }
 
     fn iterate(percent: u32) -> f32 {
         let mut got_event: u32 = 0;
