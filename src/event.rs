@@ -1,4 +1,4 @@
-use rand::{thread_rng, Rng};
+use rand::{Rng, prelude::SliceRandom, thread_rng};
 
 pub fn event(percent: u32) -> bool {
     // A event is a number between 0..100. Then will be as many
@@ -11,13 +11,13 @@ pub fn event(percent: u32) -> bool {
     let n: u32 = rng.gen_range(0..100);
     let mut rounds: Vec<u32> = Vec::new();
     
-    for _i in 0..percent {
-        let mut round = rng.gen_range(0..100);
-        while rounds.contains(&round) {
-            round = rng.gen_range(0..100);
-        }
-        rounds.push(round);
-        if round == n {
+    for i in 0..percent {
+        rounds.push(i);
+    }
+    rounds.shuffle(&mut rng);
+
+    for i in rounds {
+        if i == n {
             event_happend = true;
             break;
         }
@@ -38,7 +38,7 @@ mod tests {
     //
     #[test]
     fn test_ranges() {
-        let test_cases: Vec<TestCase> = vec![TestCase{percent:0, min:0.0, max:0.0},
+        let test_cases: Vec<TestCase> = vec![
             TestCase{percent:0, min:0.0, max:0.0},
             TestCase{percent:10, min:0.075, max:0.125},
             TestCase{percent:20, min:0.175, max:0.225},
@@ -64,6 +64,11 @@ mod tests {
         }
     }
     
+    #[bench]
+    fn bench_80(b: &mut Bencher) {
+        b.iter(|| interate(80));
+    }
+
     fn iterate(percent: u32) -> f32 {
         let mut got_event: u32 = 0;
         for _i in 0..10000 {
