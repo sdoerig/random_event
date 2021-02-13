@@ -11,13 +11,13 @@ pub fn event(percent: u32) -> bool {
     let n: u32 = rng.gen_range(0..100);
     let mut rounds: Vec<u32> = Vec::new();
     
-    for i in 0..percent {
+    for i in 0..100 {
         rounds.push(i);
     }
     rounds.shuffle(&mut rng);
 
-    for i in rounds {
-        if i == n {
+    for i in 0..percent {
+        if rounds[i as usize] == n {
             event_happend = true;
             break;
         }
