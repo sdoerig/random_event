@@ -24,3 +24,5 @@ $? is set to 1 then.
 
 ## The end
 It is a silly program - but at least, I had one hour of fun writing and playing around with it. 
+
+2021-11-10 is a good day to archive this
